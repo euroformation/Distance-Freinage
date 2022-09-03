@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="css/styles.css" />
+        <meta charset="utf-8">
+        <script type="text/javascript" src="jquery-1.3.2.js"></script>
+    </head>
+    <body>
+       <canvas id="myCanvas" width=1600 height=800></canvas>
+       
+       
+       <style>
+  html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      border: 0;
+      overflow: hidden; /*  Disable scrollbars */
+      display: block;  /* No floating content on sides */
+    }
+    
+    canvas{
+    position:absolute;top:0;left:0
+    /*background-image: linear-gradient(bottom, rgb(105,173,212) 0%, rgb(23,82,145) 84%);
+    background-image: -o-linear-gradient(bottom, rgb(105,173,212) 0%, rgb(23,82,145) 84%);
+    background-image: -moz-linear-gradient(bottom, rgb(105,173,212) 0%, rgb(23,82,145) 84%);
+    background-image: -webkit-linear-gradient(bottom, rgb(105,173,212) 0%, rgb(23,82,145) 84%);
+    background-image: -ms-linear-gradient(bottom, rgb(105,173,212) 0%, rgb(23,82,145) 84%);
+    
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0, rgb(105,173,212)),
+        color-stop(0.84, rgb(23,82,145))
+    );*/
+}
+    </style>
+    
+  
+      
+        
+        <script>
+        
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+
+var frein = new Audio('son/freinage.mp3'); 
+var v30 = new Audio('son/1.mp3'); 
+var v50 = new Audio('son/2.mp3'); 
+var v70 = new Audio('son/3.mp3');
+var v90 = new Audio('son/4.mp3');
+var v100 = new Audio('son/5.mp3');   
+var pluiefaible = new Audio('son/pluiefaible.mp3'); 
+var pluieforte = new Audio('son/pluieforte.mp3'); 
+
+
+var stopanimneige = 0;
+var stopanimneige1 = 0;
+var stopanimneige2 = 0;
+
+var stopanimpluie3 = 0;
+var stopanimpluie4 = 0;
+var stopanimpluie5 = 0;
+
+var x = 1600;
+var x1 = 1600;
+var x2 = 1600;
+var x3 = 1600;
+var x4 = 1600;
+var x5 = 1600;
+var x6 = 1600;
+var x7 = 1600;
+var y = canvas.height/2;
+var declencheur = 0;
+var firstclic = 0;
+var vitesse = 30;
+var conechange = 0;
+var stopanim = 0;
+var trace = 0;
+var distf = 0;
+var regle = 0;
+var pietonx = 1601;
+var deceleration = 7;/*variable pour modifier la capacité de déceleration du véhicule : de 1 à 12*/
+var propositionx = 0;
+var propositiony = 0;
+
+var compteurneige = 0;
+var compteurpluie = 0;
+var v = 1;
+
+let img = new Image();
+let img1 = new Image();
+let img2 = new Image();
+let img3 = new Image();
+let img4 = new Image();
+let img5 = new Image();
+let img6 = new Image();
+let img7 = new Image();
+let img8 = new Image();
+let img9 = new Image();
+let img10 = new Image();
+let imgcompteur = new Image();
+let img11 = new Image();
+let img12 = new Image();
+let img13 = new Image();
+let img14 = new Image();
+let img15 = new Image();
+let img16 = new Image();
+let img17 = new Image();
+let img18 = new Image();
+let img19 = new Image();
+let img20 = new Image();
+let img21 = new Image();
+let img22 = new Image();
+let img23 = new Image();
+let img24 = new Image();
+let img25 = new Image();
+let img26 = new Image();
+let img27 = new Image();
+let img28 = new Image();
+let img29 = new Image();
+let img31 = new Image();
+
+let img32 = new Image();
+let img33 = new Image();
+let img34 = new Image();
+let img35 = new Image();
+let img36 = new Image();
+let img37 = new Image();
+let img38 = new Image();
+
+let img30 = new Image();
+let img50 = new Image();
+let img70 = new Image();
+let img90 = new Image();
+let img100 = new Image();
+
+let imgverglas = new Image();
+let imgneige = new Image();
+let imgneigeforte = new Image();
+let imgpluie = new Image();
+let imgpluieforte = new Image();
+let imgsec = new Image();
+let imgsecfort = new Image();
+let imgpieton = new Image();
+
+img.src = 'images/voiture.png';
+img1.src = 'images/cone chantier.png';
+img2.src = 'images/30.png';
+img3.src = 'images/50.png';
+img4.src = 'images/70.png';
+img5.src = 'images/90.png';
+img16.src = 'images/100.png';
+img17.src = 'images/30orange.png';
+img18.src = 'images/50orange.png';
+img19.src = 'images/70orange.png';
+img20.src = 'images/90orange.png';
+img21.src = 'images/100orange.png';
+img6.src = 'images/compteur/c0.png';
+img7.src = 'images/compteur/c30.png';
+img8.src = 'images/compteur/c50.png';
+img9.src = 'images/compteur/c70.png';
+img10.src = 'images/compteur/c90.png';
+img11.src = 'images/je_freine.png';
+img12.src = 'images/je_recommence.png';
+img13.src = 'compteur/cnul.png';
+img14.src = 'compteur/compteur0.jpg';
+img15.src = 'compteur/c100.png';
+imgcompteur.src = 'compteur/c30.png';
+img22.src = 'images/je_freineorange.png';
+img23.src = 'images/pieton.png';
+img24.src = 'images/verglas.jpg';
+img25.src = 'images/neige.jpg';
+img26.src = 'images/neigeforte.jpg';
+img27.src = 'images/pluie.jpg';
+img28.src = 'images/pluieforte.jpg';
+img29.src = 'images/sec.jpg';
+img31.src = 'images/circuit.jpg';
+img32.src = 'images/verglasorange.jpg';
+img33.src = 'images/neigeorange.jpg';
+img34.src = 'images/neigeforteorange.jpg';
+img35.src = 'images/pluieorange.jpg';
+img36.src = 'images/pluieforteorange.jpg';
+img37.src = 'images/secorange.jpg';
+img38.src = 'images/secfortorange.jpg';
+imgpieton.src='images/pieton.png';
+
+
+var m = canvas.width/3;
+var n = y/4+105;
+
+
+document.getElementsByTagName("canvas")[0].style.cursor = "url('http://wiki-devel.sugarlabs.org/images/e/e2/Arrow.cur'), auto";/*changement de curseur*/
+
+canvas.addEventListener("mousedown", clickSouris, false);
+canvas.addEventListener("mouseup", declickSouris, false);
+
+
+function clickSouris(event)
+{
+    
+    var i = event.x;
+    var j = event.y;
+    
+    
+    if(i>160 && i<250 && j>y/4 && j<y/4+90 && stopanim==0){v=1;imgcompteur=img7;vitesse=30;}/*zone de clic pour 30*/
+        if(i>260 && i<350 && j>y/4 && j<y/4+90 && stopanim==0){v=3;imgcompteur=img8;vitesse=50;}/*zone de clic pour 50*/
+            if(i>160 && i<250 && j>y/4+105 && j<y/4+190 && stopanim==0){v=5;imgcompteur=img9;vitesse=70;}/*zone de clic 70*/
+                if(i>260 && i<350 && j>y/4+105 && j<y/4+190 && stopanim==0){v=7;imgcompteur=img10;vitesse=90;}/*zone de clic pour 90*/
+                    if(i>360 && i<455 && j>y/4+105 && j<y/4+195 && stopanim==0){v=8;imgcompteur=img15;vitesse=100;}/*zone de clic pour 100*/
+                    if(i>canvas.width/3-70 && i<canvas.width/3-70+200 && j>y/4 && j<y/4+100 && conechange>=1){img11=img22;stopanim=1;v=0;if(declencheur==0){declencheur = declencheur+1;} firstclic=firstclic+1;}/*zone de clic pour declencher le freinage*/
+                        if(i>10 && i<150 && j>0 && j<100){window.location.reload()}/*zone de clic pour recommencer*/
+                            if(i>canvas.width/2+270 && i<canvas.width/2+350 && j>40 && j<95){cancelAnimationFrame(stopanimpluie3);cancelAnimationFrame(stopanimpluie4);cancelAnimationFrame(stopanimpluie5);cancelAnimationFrame(stopanimneige);cancelAnimationFrame(stopanimneige1);cancelAnimationFrame(stopanimneige2);deceleration=0.7;compteurneige=0;compteurpluie=0;}/*zone Verglas*/
+                                
+                            if(i>canvas.width/2+270 && i<canvas.width/2+350 && j>100 && j<155){deceleration=3;
+                                                                                                cancelAnimationFrame(stopanimpluie3);cancelAnimationFrame(stopanimpluie4);cancelAnimationFrame(stopanimpluie5);compteurpluie=0;
+                                                                                                    if(compteurneige==0){compteurneige = 1;init();} 
+                                                                                                    if(compteurneige==3){cancelAnimationFrame(stopanimneige1);cancelAnimationFrame(stopanimneige2);compteurneige = 1;}
+                                                                                                    }/*zone neige 1*/
+                                
+                            if(i>canvas.width/2+360 && i<canvas.width/2+440 && j>100 && j<155){deceleration=1;
+                                                                                                cancelAnimationFrame(stopanimpluie3);cancelAnimationFrame(stopanimpluie4);cancelAnimationFrame(stopanimpluie5);compteurpluie=0;
+                                                                                                    if(compteurneige==0){init();init1();init2();compteurneige = 3;}
+                                                                                                    if(compteurneige==1){init1();init2();compteurneige = 3;}
+                                                                                                    }/*zone neige 2*/                                                                                                                                                                                                            
+                        
+
+                            if(i>canvas.width/2+270 && i<canvas.width/2+350 && j>160 && j<215){deceleration=6;
+                                                                                                cancelAnimationFrame(stopanimneige);cancelAnimationFrame(stopanimneige1);cancelAnimationFrame(stopanimneige2);compteurneige=0; 
+                                                                                                    if(compteurpluie==0){compteurpluie = 1;init3();} 
+                                                                                                    if(compteurpluie==3){cancelAnimationFrame(stopanimpluie4);cancelAnimationFrame(stopanimpluie5);compteurpluie = 1;}
+                                                                                                    }/*zone pluie 1*/
+                                
+                            if(i>canvas.width/2+360 && i<canvas.width/2+440 && j>160 && j<215){deceleration=4;
+                                                                                                cancelAnimationFrame(stopanimneige);cancelAnimationFrame(stopanimneige1);cancelAnimationFrame(stopanimneige2);compteurneige=0; 
+                                                                                                    if(compteurpluie==0){init3();init4();init5();compteurpluie = 3;}
+                                                                                                    if(compteurpluie==1){init4();init5();compteurpluie = 3;}
+                                                                                                    }/*zone pluie 2*/
+ 
+                            if(i>canvas.width/2+270 && i<canvas.width/2+350 && j>220 && j<275){deceleration=8;
+                                                                                                cancelAnimationFrame(stopanimneige);cancelAnimationFrame(stopanimneige1);cancelAnimationFrame(stopanimneige2);
+                                                                                                compteurneige=0;
+                                                                                                cancelAnimationFrame(stopanimpluie3);cancelAnimationFrame(stopanimpluie4);cancelAnimationFrame(stopanimpluie5);
+                                                                                                compteurpluie=0;
+                                                                                                    }/*zone sec 1*/
+                                
+                            if(i>canvas.width/2+360 && i<canvas.width/2+440 && j>220 && j<275){deceleration=9;
+                                                                                                cancelAnimationFrame(stopanimneige);cancelAnimationFrame(stopanimneige1);cancelAnimationFrame(stopanimneige2);
+                                                                                                compteurneige=0;
+                                                                                                cancelAnimationFrame(stopanimpluie3);cancelAnimationFrame(stopanimpluie4);cancelAnimationFrame(stopanimpluie5);
+                                                                                                compteurpluie=0;
+                                                                                                    }/*zone sec 2*/                                                                     
+
+}
+
+
+
+function declickSouris(event)
+{
+    if(event.x>108 && event.y<y+180 && event.y>y-80){m = event.x-35;
+    n = event.y-40;conechange=conechange+1;propositionx=Math.round(m/23)-2;propositiony=n;}  
+    
+    
+}
+
+function dessin()
+{
+
+
+
+
+ctx.clearRect(0, 0, canvas.width, canvas.height);/*Nettoyage pour actualiser le défilement*/
+if(declencheur>=distf && m==distf+30){stopanim=1;ctx.drawImage(img14,canvas.width/2,y/4,280,220);v=0}/*fin de freinage = compteur à 0 en jpg, sinon, on voit derrière l'autre compteur...*/
+
+ctx.beginPath();/*Ligne du haut*/
+ctx.rect(1, y-80, 1600, 5);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+
+ctx.beginPath();/*Ligne du bas*/
+ctx.rect(1, y+80, 1600, 5);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+
+ctx.beginPath();/*Trait de règle vertical à 10m*/
+    ctx.rect(310, y+80, 5, 30);/*le gros trait*/
+
+    for(regle=-1;regle<6;regle++)
+{
+    ctx.rect(333+230*regle, y+80, 5, 10);/*Les 9 petits traits*/
+    ctx.rect(356+230*regle, y+80, 5, 10);
+    ctx.rect(379+230*regle, y+80, 5, 10);
+    ctx.rect(402+230*regle, y+80, 5, 10);
+    ctx.rect(425+230*regle, y+80, 5, 10);
+    ctx.rect(448+230*regle, y+80, 5, 10);
+    ctx.rect(471+230*regle, y+80, 5, 10);
+    ctx.rect(494+230*regle, y+80, 5, 10);
+    ctx.rect(517+230*regle, y+80, 5, 10);
+}
+
+    
+
+    ctx.fillStyle = "orange";
+    ctx.fill();
+ctx.closePath();
+
+ctx.font = "40px Arial";
+ctx.fillText("10", 290, y+170);
+ctx.fillText("mètres", 290, y+220);
+
+
+ctx.beginPath();/*Trait de règle vertical à 20m*/
+    ctx.rect(540, y+80, 5, 30);
+
+    ctx.fillStyle = "orange";
+    ctx.fill();
+ctx.closePath();
+ctx.font = "40px Arial";
+ctx.fillText("20", 520, y+170);
+ctx.fillText("mètres", 520, y+220);
+
+
+ctx.beginPath();/*Trait de règle vertical à 30m*/
+ctx.rect(770, y+80, 5, 30);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+ctx.font = "40px Arial";
+ctx.fillText("30", 750, y+170);
+ctx.fillText("mètres", 750, y+220);
+
+
+ctx.beginPath();/*Trait de règle vertical à 40m*/
+ctx.rect(1000, y+80, 5, 30);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+ctx.font = "40px Arial";
+ctx.fillText("40", 980, y+170);
+ctx.fillText("mètres", 980, y+220);
+
+
+ctx.beginPath();/*Trait de règle vertical à 50m*/
+ctx.rect(1230, y+80, 5, 30);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+ctx.font = "40px Arial";
+ctx.fillText("50", 1210, y+170);
+ctx.fillText("mètres", 1210, y+220);
+
+
+ctx.beginPath();/*Trait de règle vertical à 60m*/
+ctx.rect(1460, y+80, 5, 30);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+ctx.font = "40px Arial";
+ctx.fillText("60", 1440, y+170);
+ctx.fillText("mètres", 1440, y+220);
+
+
+
+ctx.drawImage(img1,m,n,70,85);/*le cone posé*/
+
+/*Les traces*/
+
+/*Trace N°1*/
+
+for(trace=0;trace<declencheur/30+1;trace++)
+{
+    ctx.beginPath();
+ctx.rect(30*trace, y+35, 30-trace, 2);
+ctx.fillStyle = "grey";
+ctx.fill();
+ctx.closePath();   
+}
+
+/*Fin trace N°1*/
+
+/*Trace N°2*/
+for(trace=0;trace<declencheur/30+1;trace++)
+{
+    ctx.beginPath();
+ctx.rect(30*trace, y+39, 30-trace, 2);
+ctx.fillStyle = "grey";
+ctx.fill();
+ctx.closePath();   
+}
+/*Fin trace N°2*/
+
+
+/*Trace N°3*/
+for(trace=0;trace<declencheur/30+1;trace++)
+{
+    ctx.beginPath();
+ctx.rect(30*trace, y+60, 30-1.5*trace, 2);
+ctx.fillStyle = "grey";
+ctx.fill();
+ctx.closePath();   
+}
+/*Fin trace N°3*/
+
+/*Trace N°4*/
+for(trace=0;trace<declencheur/30+1;trace++)
+{
+    ctx.beginPath();
+ctx.rect(30*trace, y+56, 30-1.5*trace, 2);
+ctx.fillStyle = "grey";
+ctx.fill();
+ctx.closePath();   
+}
+/*Fin trace N°4*/
+
+
+
+/*Fin des traces*/
+
+/*Animation voiture*/
+distf = 23*Math.round((vitesse/3.6)*(vitesse/3.6)/(2*deceleration))-30;
+if(conechange>=1 && declencheur>=1){
+    if(declencheur<=distf){  if(vitesse==100){
+                                                                        if(declencheur<distf/6){declencheur=declencheur+9;frein.play();}
+                                                                        if(declencheur>=distf/6 && declencheur<2*distf/6){declencheur=declencheur+7;frein.play();}
+                                                                        if(declencheur>=2*distf/6 && declencheur<=3*distf/6){declencheur=declencheur+5;frein.play();}
+                                                                        if(declencheur>=3*distf/6 && declencheur<=4*distf/6){declencheur=declencheur+4;frein.play();}
+                                                                        if(declencheur>=4*distf/6 && declencheur<=5*distf/6){declencheur=declencheur+3;frein.play();}
+                                                                        if(declencheur>=5*distf/6 && declencheur<=distf){declencheur=declencheur+2;frein.play();}
+                                                                        }
+                                                                        if(vitesse==90){
+                                                                        if(declencheur<distf/6){declencheur=declencheur+7;frein.play();}
+                                                                        if(declencheur>=distf/6 && declencheur<2*distf/6){declencheur=declencheur+6;frein.play();}
+                                                                        if(declencheur>=2*distf/6 && declencheur<=3*distf/6){declencheur=declencheur+5;frein.play();}
+                                                                        if(declencheur>=3*distf/6 && declencheur<=4*distf/6){declencheur=declencheur+4;frein.play();}
+                                                                        if(declencheur>=4*distf/6 && declencheur<=5*distf/6){declencheur=declencheur+3;frein.play();}
+                                                                        if(declencheur>=5*distf/6 && declencheur<=distf){declencheur=declencheur+1.7;frein.play();}
+                                                                        }
+                                                                        if(vitesse==70){
+                                                                        if(declencheur<distf/6){declencheur=declencheur+5;frein.play();}
+                                                                        if(declencheur>=distf/6 && declencheur<2*distf/6){declencheur=declencheur+4;frein.play();}
+                                                                        if(declencheur>=2*distf/6 && declencheur<=3*distf/6){declencheur=declencheur+3;frein.play();}
+                                                                        if(declencheur>=3*distf/6 && declencheur<=4*distf/6){declencheur=declencheur+2;frein.play();}
+                                                                        if(declencheur>=4*distf/6 && declencheur<=5*distf/6){declencheur=declencheur+1.5;frein.play();}
+                                                                        if(declencheur>=5*distf/6 && declencheur<=distf){declencheur=declencheur+1.3;frein.play();}
+                                                                        }
+                                                                        if(vitesse==50){
+                                                                        if(declencheur<distf/6){declencheur=declencheur+3;frein.play();}
+                                                                        if(declencheur>=distf/6 && declencheur<2*distf/6){declencheur=declencheur+2.7;frein.play();}
+                                                                        if(declencheur>=2*distf/6 && declencheur<=3*distf/6){declencheur=declencheur+2.4;frein.play();}
+                                                                        if(declencheur>=3*distf/6 && declencheur<=4*distf/6){declencheur=declencheur+2.1;frein.play();}
+                                                                        if(declencheur>=4*distf/6 && declencheur<=5*distf/6){declencheur=declencheur+2;frein.play();}
+                                                                        if(declencheur>=5*distf/6 && declencheur<=distf){declencheur=declencheur+1;frein.play();}
+                                                                        }
+                                                                        if(vitesse==30){
+                                                                        if(declencheur<distf/6){declencheur=declencheur+2;frein.play();}
+                                                                        if(declencheur>=distf/6 && declencheur<2*distf/6){declencheur=declencheur+1.7;frein.play();}
+                                                                        if(declencheur>=2*distf/6 && declencheur<=3*distf/6){declencheur=declencheur+1.4;frein.play();}
+                                                                        if(declencheur>=3*distf/6 && declencheur<=4*distf/6){declencheur=declencheur+1;frein.play();}
+                                                                        if(declencheur>=4*distf/6 && declencheur<=5*distf/6){declencheur=declencheur+0.8;frein.play();}
+                                                                        if(declencheur>=5*distf/6 && declencheur<=distf){declencheur=declencheur+0.5;frein.play();}
+                                                                        }
+                                                                    }else{frein.pause();v30.pause(),v50.pause();v70.pause();v90.pause();v100.pause();}
+    if(m>distf+86){m=m-1;}else{m=m+1;}/*Animation cone*/
+    if(m>1600 && declencheur>=distf){if(pietonx>canvas.width/2){pietonx=pietonx-1;}}else{}/*Animation retour cone avec piéton*/
+}
+
+
+
+ctx.drawImage(img,declencheur,y-2,108,95);/*La voiture*/
+
+/*selection des vitesses : choix du panneau : blanc ou orange*/
+if(v==1){img30=img17;img50=img3;img70=img4;img90=img5;img100=img16;v30.play();v50.pause();v70.pause();v90.pause();v100.pause();}
+if(v==3){img30=img2;img50=img18;img70=img4;img90=img5;img100=img16;v30.pause();v50.play();v70.pause();v90.pause();v100.pause();}
+if(v==5){img30=img2;img50=img3;img70=img19;img90=img5;img100=img16;v30.pause();v50.pause();v70.play();v90.pause();v100.pause();}
+if(v==7){img30=img2;img50=img3;img70=img4;img90=img20;img100=img16;v30.pause();v50.pause();v70.pause();v90.play();v100.pause();}
+if(v==8){img30=img2;img50=img3;img70=img4;img90=img5;img100=img21;v30.pause();v50.pause();v70.pause();v90.pause();v100.play();}
+
+/*Affichage "mètre" sous les traits de règle*/
+ctx.font = 'bold 45px arial, sans-serif';
+ctx.fillStyle = "#ed1c24";
+ if(Math.round((m)/23)-2>64){ctx.fillText(Math.round((m)/23)-2, m-10, n+125);} else{if(Math.round((m)/23)-2<10 && n>y-80){ctx.fillText(Math.round((m)/23)-2, m+20, n+125);}else{if(n>y-80){ctx.fillText(Math.round((m)/23)-2, m+7, n+125);}}}
+    if(Math.round((m)/23)-2<=1){ctx.fillText('mètre', m-30, n+170);}
+    if(Math.round((m)/23)-2>1 && Math.round((m)/23)-2<64 && n>y-80){ctx.fillText('mètres', m-35, n+170);}
+    if(Math.round((m)/23)-2>=64){ctx.fillText('mètres', m-105, n+170);}
+
+
+
+
+
+
+ctx.fillText('Votre estimation :', 800, y+350);/*Affichage de la proposition suite à la pose du cone*/
+ctx.fillText(propositionx, 1220, y+350);
+if(propositionx<=1){ctx.fillText('mètre', 1260, y+350);}
+if(propositionx<=9 && propositionx>1){ctx.fillText('mètres', 1260, y+350);}
+if(propositionx>9){ctx.fillText('mètres', 1290, y+350);} 
+
+
+
+
+
+
+
+ctx.drawImage(img30,160,y/4,90,90);/*La zone 30*/
+ctx.drawImage(img50,260,y/4,90,90);/*50*/
+ctx.drawImage(img70,160,y/4+105,90,85);/*70*/
+ctx.drawImage(img90,260,y/4+105,90,85);/*90*/
+ctx.drawImage(img100,360,y/4+105,95,90);/*100*/
+ctx.drawImage(imgcompteur,canvas.width/2,y/4,280,220);/*Le compteur de vitesse*/
+ctx.drawImage(img11,canvas.width/3-70,y/4,200,100);/*Je freine !!!!*/
+ctx.drawImage(img12,15,0,140,100);/*Je recommence*/
+
+
+/**/
+
+/*La météo*/
+
+/*selection de la météo : choix du panneau : blanc ou orange*/
+
+    if(deceleration==0.7){ctx.font = 'bold 30px arial, sans-serif';ctx.fillStyle = "orange";ctx.fillText('Verglas',canvas.width/2,y/4-50);ctx.fillText('Coefficient d`adhérence :',canvas.width/2-200,y/4-15);
+ctx.fillText(0.07,canvas.width/2+180,y/4-15);imgverglas=img24;imgneige=img33;imgneigeforte=img34;imgpluie=img35;imgpluieforte=img36;imgsec=img37;imgsecfort=img38;pluiefaible.pause();pluieforte.pause();}
+    if(deceleration==1){ctx.font = 'bold 30px arial, sans-serif';ctx.fillStyle = "orange";ctx.fillText('Neige tassée',canvas.width/2-100,y/4-50);ctx.fillText('Coefficient d`adhérence :',canvas.width/2-200,y/4-15);
+ctx.fillText((deceleration)/10,canvas.width/2+180,y/4-15);imgverglas=img32;imgneige=img33;imgneigeforte=img26;imgpluie=img35;imgpluieforte=img36;imgsec=img37;imgsecfort=img38;pluiefaible.pause();pluieforte.pause();}
+    if(deceleration==3){ctx.font = 'bold 30px arial, sans-serif';ctx.fillStyle = "orange";ctx.fillText('Neige',canvas.width/2,y/4-50);ctx.fillText('Coefficient d`adhérence :',canvas.width/2-200,y/4-15);
+ctx.fillText((deceleration)/10,canvas.width/2+180,y/4-15);imgverglas=img32;imgneige=img25;imgneigeforte=img34;imgpluie=img35;imgpluieforte=img36;imgsec=img37;imgsecfort=img38;pluiefaible.pause();pluieforte.pause();}
+    if(deceleration==4){ctx.font = 'bold 30px arial, sans-serif';ctx.fillStyle = "orange";ctx.fillText('Pluie forte',canvas.width/2,y/4-50);ctx.fillText('Coefficient d`adhérence :',canvas.width/2-200,y/4-15);
+ctx.fillText((deceleration)/10,canvas.width/2+180,y/4-15);imgverglas=img32;imgneige=img33;imgneigeforte=img34;imgpluie=img35;imgpluieforte=img28;imgsec=img37;imgsecfort=img38;pluiefaible.pause();pluieforte.play();}
+    if(deceleration==6){ctx.font = 'bold 30px arial, sans-serif';ctx.fillStyle = "orange";ctx.fillText('Pluie',canvas.width/2,y/4-50);ctx.fillText('Coefficient d`adhérence :',canvas.width/2-200,y/4-15);
+ctx.fillText((deceleration)/10,canvas.width/2+180,y/4-15);imgverglas=img32;imgneige=img33;imgneigeforte=img34;imgpluie=img27;imgpluieforte=img36;imgsec=img37;imgsecfort=img38;pluiefaible.play();pluieforte.pause();}
+    if(deceleration==8){ctx.font = 'bold 30px arial, sans-serif';ctx.fillStyle = "orange";ctx.fillText('Beau temps + route neuve',canvas.width/2-130,y/4-50);ctx.fillText('Coefficient d`adhérence :',canvas.width/2-200,y/4-15);
+ctx.fillText((deceleration)/10,canvas.width/2+180,y/4-15);imgverglas=img32;imgneige=img33;imgneigeforte=img34;imgpluie=img35;imgpluieforte=img36;imgsec=img29;imgsecfort=img38;pluiefaible.pause();pluieforte.pause();}
+    if(deceleration==9){ctx.font = 'bold 30px arial, sans-serif';ctx.fillStyle = "orange";ctx.fillText('Beau temps + circuit',canvas.width/2-100,y/4-50);ctx.fillText('Coefficient d`adhérence :',canvas.width/2-200,y/4-15);
+ctx.fillText((deceleration)/10,canvas.width/2+180,y/4-15);imgverglas=img32;imgneige=img33;imgneigeforte=img34;imgpluie=img35;imgpluieforte=img36;imgsec=img37;imgsecfort=img31;pluiefaible.pause();pluieforte.pause();}
+    if(deceleration==7){ctx.font = 'bold 30px arial, sans-serif';ctx.fillStyle = "orange";ctx.fillText('Beau temps',canvas.width/2,y/4-50);ctx.fillText('Coefficient d`adhérence :',canvas.width/2-200,y/4-15);
+ctx.fillText((deceleration)/10,canvas.width/2+180,y/4-15);imgverglas=img24;imgneige=img25;imgneigeforte=img26;imgpluie=img27;imgpluieforte=img28;imgsec=img29;imgsecfort=img31;pluiefaible.pause();pluieforte.pause();}
+
+
+ctx.drawImage(imgverglas,canvas.width/2+270,40,80,55);/*verglas*/
+ctx.font = 'bold 30px arial, sans-serif';
+ctx.fillStyle = "orange";
+ctx.fillText('Verglas',canvas.width/2+450,75);
+
+ctx.drawImage(imgneige,canvas.width/2+270,100,80,55);/*neige*/
+ctx.drawImage(imgneigeforte,canvas.width/2+360,100,80,55);
+ctx.fillText('Neige',canvas.width/2+450, 135);
+
+ctx.drawImage(imgpluie,canvas.width/2+270,160,80,55);/*pluie*/
+ctx.drawImage(imgpluieforte,canvas.width/2+360,160,80,55);
+ctx.fillText('Pluie',canvas.width/2+450, 195);
+
+ctx.drawImage(imgsec,canvas.width/2+270,220,80,55);/*sec*/
+ctx.drawImage(imgsecfort,canvas.width/2+360,220,80,55);/*circuit*/
+ctx.fillText('Sec',canvas.width/2+450, 255);
+
+
+/*Trait 1*/
+ctx.beginPath();
+ctx.rect(x, y, 50, 5);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+x=x-v;
+if(x<10)
+{x=1600}
+
+/*Trait 2*/
+if(x<=1400||x1<=1400){
+    ctx.beginPath();
+ctx.rect(x1, y, 50, 5);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+x1=x1-v;
+}
+if(x1<10)
+{x1=1600}
+
+/*Trait 3*/
+if(x1<=1400||x2<=1400){
+    ctx.beginPath();
+ctx.rect(x2, y, 50, 5);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+x2=x2-v;
+}
+if(x2<10)
+{x2=1600}
+
+/*Trait 4*/
+if(x2<=1400||x3<=1400){
+    ctx.beginPath();
+ctx.rect(x3, y, 50, 5);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+x3=x3-v;
+}
+if(x3<10)
+{x3=1600}
+
+/*Trait 5*/
+if(x3<=1400||x4<=1400){
+    ctx.beginPath();
+ctx.rect(x4, y, 50, 5);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+x4=x4-v;
+}
+if(x4<10)
+{x4=1600}
+
+/*Trait 6*/
+if(x4<=1400||x5<=1400){
+    ctx.beginPath();
+ctx.rect(x5, y, 50, 5);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+x5=x5-v;
+}
+if(x5<10)
+{x5=1600}
+
+/*Trait 7*/
+if(x5<=1400||x6<=1400){
+    ctx.beginPath();
+ctx.rect(x6, y, 50, 5);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+x6=x6-v;
+}
+if(x6<10)
+{x6=1600}
+
+/*Trait 8*/
+if(x6<=1400||x7<=1400){
+    ctx.beginPath();
+ctx.rect(x7, y, 50, 5);
+ctx.fillStyle = "orange";
+ctx.fill();
+ctx.closePath();
+x7=x7-v;
+}
+if(x7<10)
+{x7=1600}
+
+ctx.drawImage(imgpieton,pietonx,y-45,80,125);/*position pieton*/
+
+if (pietonx<=canvas.width/2){
+ctx.font = 'bold 22px arial, sans-serif';
+ctx.fillStyle = "orange";
+ctx.fillText('J`ai trouvé ça à',canvas.width/2-200,y-55);
+ctx.fillStyle = "#ed1c24";
+ctx.fillText((distf+30)/23,canvas.width/2-180,y-30);
+ctx.fillStyle = "orange";
+ctx.fillText('mètres !!!!',canvas.width/2-200,y-2);
+ctx.fillText('C`est à vous ???',canvas.width/2-200,y+30);
+}
+
+requestAnimationFrame(dessin);
+
+}
+
+
+dessin();
+
+/*Animation neige*/
+
+var flakes = [],
+    
+    flakeCount = 400,
+    mX = -100,
+    mY = -100
+
+   
+
+function snow() {
+    
+
+    for (var i = 0; i < flakeCount; i++) {
+        var flake = flakes[i],
+            x = mX,
+            y = mY,
+            minDist = 150,
+            x2 = flake.x,
+            y2 = flake.y;
+
+        var dist = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y)),
+            dx = x2 - x,
+            dy = y2 - y;
+
+        if (dist < minDist) {
+            var force = minDist / (dist * dist),
+                xcomp = (x - x2) / dist,
+                ycomp = (y - y2) / dist,
+                deltaV = force / 2;
+
+            flake.velX -= deltaV * xcomp;
+            flake.velY -= deltaV * ycomp;
+
+        } else {
+            flake.velX *= .98;
+            if (flake.velY <= flake.speed) {
+                flake.velY = flake.speed
+            }
+            flake.velX += Math.cos(flake.step += .05) * flake.stepSize;
+        }
+
+        ctx.fillStyle = "rgba(255,255,255," + flake.opacity + ")";
+        flake.y += flake.velY;
+        flake.x += flake.velX;
+            
+        if (flake.y >= canvas.height || flake.y <= 0) {
+            reset(flake);
+        }
+
+
+        if (flake.x >= canvas.width || flake.x <= 0) {
+            reset(flake);
+        }
+        
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+    }
+    stopanimneige=requestAnimationFrame(snow);
+};
+/*fin de la fonction snow*/
+
+function snow1() {
+    
+
+    for (var i = 0; i < flakeCount; i++) {
+        var flake = flakes[i],
+            x = mX,
+            y = mY,
+            minDist = 150,
+            x2 = flake.x,
+            y2 = flake.y;
+
+        var dist = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y)),
+            dx = x2 - x,
+            dy = y2 - y;
+
+        if (dist < minDist) {
+            var force = minDist / (dist * dist),
+                xcomp = (x - x2) / dist,
+                ycomp = (y - y2) / dist,
+                deltaV = force / 2;
+
+            flake.velX -= deltaV * xcomp;
+            flake.velY -= deltaV * ycomp;
+
+        } else {
+            flake.velX *= .98;
+            if (flake.velY <= flake.speed) {
+                flake.velY = flake.speed
+            }
+            flake.velX += Math.cos(flake.step += .05) * flake.stepSize;
+        }
+
+        ctx.fillStyle = "rgba(255,255,255," + flake.opacity + ")";
+        flake.y += flake.velY;
+        flake.x += flake.velX;
+            
+        if (flake.y >= canvas.height || flake.y <= 0) {
+            reset(flake);
+        }
+
+
+        if (flake.x >= canvas.width || flake.x <= 0) {
+            reset(flake);
+        }
+        
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+    }
+    stopanimneige1=requestAnimationFrame(snow1);
+};
+/*fin de la fonction snow1*/
+
+function snow2() {
+    
+
+    for (var i = 0; i < flakeCount; i++) {
+        var flake = flakes[i],
+            x = mX,
+            y = mY,
+            minDist = 150,
+            x2 = flake.x,
+            y2 = flake.y;
+
+        var dist = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y)),
+            dx = x2 - x,
+            dy = y2 - y;
+
+        if (dist < minDist) {
+            var force = minDist / (dist * dist),
+                xcomp = (x - x2) / dist,
+                ycomp = (y - y2) / dist,
+                deltaV = force / 2;
+
+            flake.velX -= deltaV * xcomp;
+            flake.velY -= deltaV * ycomp;
+
+        } else {
+            flake.velX *= .98;
+            if (flake.velY <= flake.speed) {
+                flake.velY = flake.speed
+            }
+            flake.velX += Math.cos(flake.step += .05) * flake.stepSize;
+        }
+
+        ctx.fillStyle = "rgba(255,255,255," + flake.opacity + ")";
+        flake.y += flake.velY;
+        flake.x += flake.velX;
+            
+        if (flake.y >= canvas.height || flake.y <= 0) {
+            reset(flake);
+        }
+
+
+        if (flake.x >= canvas.width || flake.x <= 0) {
+            reset(flake);
+        }
+        
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+    }
+    stopanimneige2=requestAnimationFrame(snow2);
+};
+/*fin de la fonction snow2*/
+
+
+function reset(flake) {
+    flake.x = Math.floor(Math.random() * canvas.width);
+    flake.y = 0;
+    flake.size = (Math.random() * 3) + 2;
+    flake.speed = (Math.random() * 1) + 0.5;
+    flake.velY = flake.speed;
+    flake.velX = 0;
+    flake.opacity = (Math.random() * 0.5) + 0.3;
+}
+
+
+
+function init() {
+    for (var i = 0; i < flakeCount; i++) {
+        var x = Math.floor(Math.random() * canvas.width),
+            y = Math.floor(Math.random() * canvas.height),
+            size = (Math.random() * 3) + 2,
+            speed = (Math.random() * 1) + 0.5,
+            opacity = (Math.random() * 0.5) + 0.3;
+
+        flakes.push({
+            speed: speed,
+            velY: speed,
+            velX: 0,
+            x: x,
+            y: y,
+            size: size,
+            stepSize: (Math.random()) / 30,
+            step: 0,
+            opacity: opacity
+        });
+    }
+
+    snow();
+};
+/*fin de la fonction init*/
+
+function init1() {
+    for (var i = 0; i < flakeCount; i++) {
+        var x = Math.floor(Math.random() * canvas.width),
+            y = Math.floor(Math.random() * canvas.height),
+            size = (Math.random() * 3) + 2,
+            speed = (Math.random() * 1) + 0.5,
+            opacity = (Math.random() * 0.5) + 0.3;
+
+        flakes.push({
+            speed: speed,
+            velY: speed,
+            velX: 0,
+            x: x,
+            y: y,
+            size: size,
+            stepSize: (Math.random()) / 30,
+            step: 0,
+            opacity: opacity
+        });
+    }
+
+    snow1();
+};
+
+/*fin de la fonction init1*/
+
+function init2() {
+    for (var i = 0; i < flakeCount; i++) {
+        var x = Math.floor(Math.random() * canvas.width),
+            y = Math.floor(Math.random() * canvas.height),
+            size = (Math.random() * 3) + 2,
+            speed = (Math.random() * 1) + 0.5,
+            opacity = (Math.random() * 0.5) + 0.3;
+
+        flakes.push({
+            speed: speed,
+            velY: speed,
+            velX: 0,
+            x: x,
+            y: y,
+            size: size,
+            stepSize: (Math.random()) / 30,
+            step: 0,
+            opacity: opacity
+        });
+    }
+
+    snow2();
+};
+
+/*fin de la fonction init2*/
+
+
+
+
+
+canvas.addEventListener("mousemove", function(e) {
+    mX = e.clientX,
+    mY = e.clientY
+});
+
+
+
+
+
+
+/*Animation pluie*/
+var flakes = [],
+    
+    flakeCount = 400,
+    mX = -100,
+    mY = -100
+
+ var t = 0;  
+/*pluie.play();*/
+
+
+
+/*début fonction rain*/
+function rain() {
+    
+   for (var i = 0; i < flakeCount; i++) {
+        var flake = flakes[i],
+            x = mX,
+            y = mY,
+            minDist = 150,
+            x2 = flake.x,
+            y2 = flake.y;
+
+        var dist = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y)),
+            dx = x2 - x,
+            dy = y2 - y;
+
+        if (dist < minDist) {
+            var force = minDist / (dist * dist),
+                xcomp = (x - x2) / dist,
+                ycomp = (y - y2) / dist,
+                deltaV = force / 2;
+/*
+            flake.velX -= deltaV * xcomp;
+            flake.velY -= deltaV * ycomp;*/
+
+        } else {
+            flake.velX *= .98;
+            if (flake.velY <= flake.speed) {
+                flake.velY = flake.speed
+            }
+            /*t += Math.cos(flake.step += .05) * flake.stepSize;*/
+        }
+
+        ctx.fillStyle = "rgba(0,0,255," + flake.opacity + ")";
+        flake.y += flake.velY;
+        flake.x += flake.velX;
+            
+        if (flake.y >= canvas.height || flake.y <= 0) {
+            reset(flake);
+        }
+
+
+        if (flake.x >= canvas.width || flake.x <= 0) {
+            reset(flake);
+        }
+        
+        ctx.beginPath();
+        ctx.rect(flake.x, flake.y, 0.3, 25);
+        ctx.fill();
+        
+    }
+    stopanimpluie3=requestAnimationFrame(rain);
+};
+
+/*fin fonction rain*/
+
+function rain1() {
+    
+    for (var i = 0; i < flakeCount; i++) {
+         var flake = flakes[i],
+             x = mX,
+             y = mY,
+             minDist = 150,
+             x2 = flake.x,
+             y2 = flake.y;
+ 
+         var dist = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y)),
+             dx = x2 - x,
+             dy = y2 - y;
+ 
+         if (dist < minDist) {
+             var force = minDist / (dist * dist),
+                 xcomp = (x - x2) / dist,
+                 ycomp = (y - y2) / dist,
+                 deltaV = force / 2;
+ /*
+             flake.velX -= deltaV * xcomp;
+             flake.velY -= deltaV * ycomp;*/
+ 
+         } else {
+             flake.velX *= .98;
+             if (flake.velY <= flake.speed) {
+                 flake.velY = flake.speed
+             }
+             /*t += Math.cos(flake.step += .05) * flake.stepSize;*/
+         }
+ 
+         ctx.fillStyle = "rgba(0,0,255," + flake.opacity + ")";
+         flake.y += flake.velY;
+         flake.x += flake.velX;
+             
+         if (flake.y >= canvas.height || flake.y <= 0) {
+             reset(flake);
+         }
+ 
+ 
+         if (flake.x >= canvas.width || flake.x <= 0) {
+             reset(flake);
+         }
+         
+         ctx.beginPath();
+         ctx.rect(flake.x, flake.y, 0.3, 25);
+         ctx.fill();
+         
+     }
+     stopanimpluie4=requestAnimationFrame(rain1);
+ };
+ 
+/*fin fonction rain1*/
+
+function rain2() {
+    
+    for (var i = 0; i < flakeCount; i++) {
+         var flake = flakes[i],
+             x = mX,
+             y = mY,
+             minDist = 150,
+             x2 = flake.x,
+             y2 = flake.y;
+ 
+         var dist = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y)),
+             dx = x2 - x,
+             dy = y2 - y;
+ 
+         if (dist < minDist) {
+             var force = minDist / (dist * dist),
+                 xcomp = (x - x2) / dist,
+                 ycomp = (y - y2) / dist,
+                 deltaV = force / 2;
+ /*
+             flake.velX -= deltaV * xcomp;
+             flake.velY -= deltaV * ycomp;*/
+ 
+         } else {
+             flake.velX *= .98;
+             if (flake.velY <= flake.speed) {
+                 flake.velY = flake.speed
+             }
+             /*t += Math.cos(flake.step += .05) * flake.stepSize;*/
+         }
+ 
+         ctx.fillStyle = "rgba(0,0,255," + flake.opacity + ")";
+         flake.y += flake.velY;
+         flake.x += flake.velX;
+             
+         if (flake.y >= canvas.height || flake.y <= 0) {
+             reset(flake);
+         }
+ 
+ 
+         if (flake.x >= canvas.width || flake.x <= 0) {
+             reset(flake);
+         }
+         
+         ctx.beginPath();
+         ctx.rect(flake.x, flake.y, 0.3, 25);
+         ctx.fill();
+         
+     }
+     stopanimpluie5=requestAnimationFrame(rain2);
+ };
+ 
+/*fin fonction rain2*/
+
+function reset(flake) {
+    flake.x = Math.floor(Math.random() * canvas.width);
+    flake.y = 0;
+    
+    flake.speed = 3;
+    flake.velY = flake.speed;
+    flake.velX = 0;
+    flake.opacity = (Math.random() * 0.5) + 0.3;
+}
+
+
+/*Debut fonction init3*/
+function init3() {
+    for (var i = 0; i < flakeCount; i++) {
+        var x = Math.floor(Math.random() * canvas.width),
+            y = Math.floor(Math.random() * canvas.height),
+            size = (Math.random() * 3) + 2,
+            speed = (Math.random() * 1) + 3,
+            opacity = (Math.random() * 0.5) + 0.3;
+
+        flakes.push({
+            speed: speed,
+            velY: speed,
+            velX: 0,
+            x: x,
+            y: y,
+            size: size,
+            stepSize: (Math.random()) / 30,
+            step: 0,
+            opacity: opacity
+        });
+    }
+
+    rain();
+};
+/*fin fonction init3*/
+
+/*debut fonction init4*/
+
+function init4() {
+    for (var i = 0; i < flakeCount; i++) {
+        var x = Math.floor(Math.random() * canvas.width),
+            y = Math.floor(Math.random() * canvas.height),
+            size = (Math.random() * 3) + 2,
+            speed = (Math.random() * 1) + 3,
+            opacity = (Math.random() * 0.5) + 0.3;
+
+        flakes.push({
+            speed: speed,
+            velY: speed,
+            velX: 0,
+            x: x,
+            y: y,
+            size: size,
+            stepSize: (Math.random()) / 30,
+            step: 0,
+            opacity: opacity
+        });
+    }
+
+    rain1();
+};
+/*fin fonction init4*/
+
+/*Debut fonction init5*/
+function init5() {
+    for (var i = 0; i < flakeCount; i++) {
+        var x = Math.floor(Math.random() * canvas.width),
+            y = Math.floor(Math.random() * canvas.height),
+            size = (Math.random() * 3) + 2,
+            speed = (Math.random() * 1) + 3,
+            opacity = (Math.random() * 0.5) + 0.3;
+
+        flakes.push({
+            speed: speed,
+            velY: speed,
+            velX: 0,
+            x: x,
+            y: y,
+            size: size,
+            stepSize: (Math.random()) / 30,
+            step: 0,
+            opacity: opacity
+        });
+    }
+
+    rain2();
+};
+/*fin fonction init5*/
+
+
+
+/*window.addEventListener("resize",function(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+})*/
+
+
+
+
+
+   
+        
+        </script>
+
+
+
+
+
+
+    </body>
+</html>
