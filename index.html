@@ -272,6 +272,7 @@ function dessin()
 
 
 ctx.clearRect(0, 0, canvas.width, canvas.height);/*Nettoyage pour actualiser le défilement*/
+window.refresh();
 if(declencheur>=distf && m==distf+30){stopanim=1;ctx.drawImage(img14,canvas.width/2,y/4,280,220);v=0}/*fin de freinage = compteur à 0 en jpg, sinon, on voit derrière l'autre compteur...*/
 
 ctx.beginPath();/*Ligne du haut*/
